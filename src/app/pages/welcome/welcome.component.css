@@ -1,0 +1,33 @@
+nz-date-picker,
+nz-month-picker,
+nz-range-picker,
+nz-week-picker {
+  margin: 0 8px 12px 0;
+}
+.ant-input-group-wrapper{
+  width: 350px;
+}
+
+.ant-modal{
+  height: 650px;
+}
+.ant-btn-circle, .ant-btn-circle-outline {
+  float: right;
+}
+
+nz-date-picker {
+  margin: 0 8px 12px 0;
+}
+
+nz-select {
+  margin-right: 8px;
+  width: 300px;
+}
+
+.width-80{
+  width: 80%;
+}
+
+.width-60{
+  width: 60%;
+}

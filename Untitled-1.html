@@ -1,0 +1,29 @@
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid black;
+    }
+    
+    span {
+        float: left;
+    }
+</style>
+<table>
+    <col width="250">
+    <col width="150">
+    <col width="300">
+    <col width="450">
+    <tr>
+        <th><span>Request by email</span></th>
+        <th><span>Request type</span></th>
+        <th>Day request</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>requestEntity.getUser().getEmail()</td>
+        <td>requestEntity.getRequestType().getName()</td>
+        <td>requestEntity.getDayRequest()</td>
+        <td>requestEntity.getDescription() </td>
+    </tr>
+</table>

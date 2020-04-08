@@ -1,0 +1,92 @@
+<div nz-row>
+    <div nz-col nzSpan="16">
+        <nz-card style="width:100%;">
+            <diV class="div-item">
+                <div nz-row>
+                    <div nz-col nzSpan="8">
+                        <span><h4>*Request type:</h4> </span>
+                    </div>
+                    <div nz-col nzSpan="16">
+                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a request type" [(ngModel)]="selectedRequestType" style="width: 100%;">
+                            <nz-option *ngFor="let requestType of requestTypes" nzLabel="{{ requestType.name }}" nzValue="{{ requestType.id }}"></nz-option>
+                        </nz-select>
+
+                        <p class="validate" [ngStyle]="{
+                display: validateScope.requestType ? 'block' : 'none'
+              }">
+                            Request type is error
+                        </p>
+                    </div>
+                </div>
+            </diV>
+
+            <diV class="div-item">
+                <div nz-row>
+                    <div nz-col nzSpan="8">
+                        <span><h4>*Description:</h4> </span>
+                    </div>
+                    <div nz-col nzSpan="16">
+                        <textarea rows="4" nz-input [(ngModel)]="description"></textarea>
+                        <p class="validate" [ngStyle]="{
+                display: validateScope.description ? 'block' : 'none'
+              }">
+                            Description is error
+                        </p>
+                    </div>
+                </div>
+            </diV>
+
+            <diV class="div-item">
+                <div nz-row>
+                    <div nz-col nzSpan="8">
+                        <span><h4>*Day request:</h4> </span>
+                    </div>
+                    <div nz-col nzSpan="16">
+                        <nz-date-picker [nzRenderExtraFooter]="footerRender" [(ngModel)]="selectedDate" style="width: 100%;"></nz-date-picker>
+
+                        <p class="validate" [ngStyle]="{
+                display: validateScope.selectedDate ? 'block' : 'none'
+              }">
+                            Day request is error
+                        </p>
+                    </div>
+                </div>
+            </diV>
+
+            <button nz-button nzType="primary" (click)="onClickSendRequest()">
+        Send request
+      </button>
+        </nz-card>
+    </div>
+    <div nz-col nzSpan="8">
+        <img style="width: 86%;
+      height: auto;" src="https://3.bp.blogspot.com/-5p7HmChO9vM/WWTVsHYyvSI/AAAAAAAAANQ/fdr_J7v6ZSkTzYYtT9KI74BX4_mk2LrgQCLcBGAs/s1600/19744842-The-word-Requests-on-a-suggestion-box-for-collecting-ideas-on-your-wants-desires-and-needs-Stock-Photo.jpg"
+        />
+    </div>
+</div>
+
+<div>
+    <h1>
+        MY REQUESTS
+    </h1>
+    <p-table [value]="requestsOfMe">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Email</th>
+                <th>Request Type</th>
+                <th>Create At</th>
+                <th>Status</th>
+                <th>Description</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-request>
+            <tr>
+                <td>{{request.user.email}}</td>
+                <td>{{request.requestType.name}}</td>
+                <td>{{request.createAt | timeAgo}}</td>
+                <td>{{request.status.name}}</td>
+                <td>{{request.description}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

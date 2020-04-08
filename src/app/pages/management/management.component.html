@@ -1,0 +1,55 @@
+<nz-input-group [nzSuffix]="suffixIconSearch" class="group-search">
+  <input
+    type="text"
+    nz-input
+    placeholder="input search text"
+    id="input-search"
+    [(ngModel)]="valueSearch"
+  />
+</nz-input-group>
+<ng-template #suffixIconSearch>
+  <i nz-icon nzType="search" id="btn-search" (click)="search()"></i>
+  <span nzType="default" id="btn-reset-data" (click)="reset()">Reset</span>
+</ng-template>
+
+<nz-table #filterTable [nzData]="users" [nzPageSize]="20">
+  <thead>
+    <tr>
+      <th nzWidth="300px" nzShowSort (nzSortChange)="sortName($event)">
+        <i nz-icon nzType="user" nzTheme="outline"></i>
+        Name
+      </th>
+      <th nzWidth="300px" nzShowSort (nzSortChange)="sortEmail($event)">
+        <i nz-icon nzType="mail" nzTheme="outline"></i>
+        Email
+      </th>
+      <th>Status</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of filterTable.data">
+      <td>{{ data.firstName }} {{ data.lastName }}</td>
+      <td>{{ data.email }}</td>
+      <td>
+        <div *ngIf="!data.enable; else disableUser">
+          <button nz-button nzType="default" (click)="onEnableUser(data)">
+            <i nz-icon nzType="user-add" nzTheme="outline"></i>
+            Enable
+          </button>
+        </div>
+        <ng-template #disableUser>
+          <button nz-button nzType="default" (click)="onDisableUser(data)">
+            <i nz-icon nzType="user-delete" nzTheme="outline"></i>
+            Disable
+          </button>
+        </ng-template>
+      </td>
+      <td>
+        <button nz-button nzType="default" [routerLink]="['/profile', data.id]">
+          <i nz-icon nzType="edit" nzTheme="outline"></i>Edit
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

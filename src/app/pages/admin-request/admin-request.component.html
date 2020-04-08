@@ -1,0 +1,39 @@
+<h1>
+    ADMIN REQUEST
+</h1>
+<br>
+<div class="ui-g ui-fluid">
+    <p-dropdown [options]="sortBys" [(ngModel)]="requestPageModel.sortBy" (onChange)="changeSortBy($event)" class="ui-g-12 ui-md-4"></p-dropdown>
+
+    <div class="ui-g-12 ui-md-8">
+        <div class="ui-inputgroup">
+            <input type="text" pInputText placeholder="Keyword" class="ui-g-12 ui-md-11 bo-tron" [(ngModel)]="requestPageModel.search">
+            <button pButton type="button" label="Search" (click)="searchRequest()"></button>
+        </div>
+    </div>
+</div>
+
+<p-table [value]="requests">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Email</th>
+            <th>Request Type</th>
+            <th>Create At</th>
+            <th>Status</th>
+            <th>Description</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-request>
+        <tr>
+            <td>{{request.user.email}}</td>
+            <td>{{request.requestType.name}}</td>
+            <td>{{request.createAt | timeAgo}}</td>
+            <td>
+                <p-dropdown [options]="status" [(ngModel)]="request.status" (onChange)="onChange($event, request)"></p-dropdown>
+            </td>
+            <td>{{request.description}}</td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-paginator [rows]="requestPageModel.items" [totalRecords]="sizeArray" [rowsPerPageOptions]="[2,3,5]" (onPageChange)="requestPage($event)"></p-paginator>

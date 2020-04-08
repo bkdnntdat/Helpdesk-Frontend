@@ -1,0 +1,163 @@
+<h1 style="color: #40a9ff">
+  SKILL
+</h1>
+
+<div nz-row>
+  <div nz-col [nzSpan]="18" [nzPush]="6">
+    <nz-input-group
+      nzSearch
+      [nzAddOnAfter]="suffixIconButton"
+      style="width: 50%; float: right"
+    >
+      <nz-select
+        nzPlaceHolder="Select Category Of Skill"
+        nzAllowClear
+        [(ngModel)]="categoryId"
+        (ngModelChange)="search(categoryId)"
+      >
+        <nz-option
+          *ngFor="let value of cateValues"
+          [nzValue]="value.id"
+          [nzLabel]="value.name"
+        >
+        </nz-option>
+        <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+          <i nz-icon nzType="loading" class="loading-icon"></i> Loading Data...
+        </nz-option>
+      </nz-select>
+    </nz-input-group>
+  </div>
+  <div nz-col [nzSpan]="6" [nzPull]="18">
+    <button nz-button nzType="dashed" nzShape="circle" (click)="showModal()">
+      <i nz-icon nzType="plus" nzTheme="outline"></i>
+      <nz-modal
+        [(nzVisible)]="isVisible"
+        nzTitle="Create New Skill"
+        (nzOnCancel)="handleCancel()"
+        (nzOnOk)="onSubmit()"
+      >
+        <form
+          nz-form
+          [nzLayout]="'inline'"
+          [formGroup]="skillForm"
+          (ngSubmit)="onSubmit()"
+        >
+          <nz-form-item>
+            <nz-form-control nzErrorTip="Please input your skill!">
+              <nz-input-group
+                [nzSuffix]="suffixTemplateInfo"
+                [nzPrefix]="prefixTemplateUser"
+              >
+                <input
+                  type="text"
+                  nz-input
+                  placeholder="Create New Skill Name"
+                  style="width: 470px;"
+                  formControlName="name"
+                />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control nzErrorTip="Please input categories!">
+              <nz-select
+                formControlName="categories"
+                nzPlaceHolder="Select Category Of New Skill"
+                nzAllowClear
+                formControlName="categories"
+              >
+                <nz-option
+                  *ngFor="let value of cateValues"
+                  [nzValue]="value"
+                  [nzLabel]="value.name"
+                ></nz-option>
+                <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+                  <i nz-icon nzType="loading" class="loading-icon"></i> Loading
+                  Data...
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <span></span>
+          <ng-template #prefixTemplateUser
+            ><i nz-icon nzType="form" nzTheme="outline"></i
+          ></ng-template>
+        </form>
+      </nz-modal>
+    </button>
+  </div>
+</div>
+<br /><br />
+<nz-table #editRowTable nzBordered [nzData]="data">
+  <thead>
+    <tr>
+      <th nzWidth="15%">ID</th>
+      <th nzWidth="25%">Name</th>
+      <th nzWidth="30%">Category</th>
+      <th nzWidth="30%">More</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of editRowTable.data">
+      <td>
+        <ng-container>
+          {{ data.id }}
+        </ng-container>
+      </td>
+      <td>
+        <ng-container *ngIf="!edit; else nameInputTpl">
+          {{ data.name }}
+        </ng-container>
+        <ng-template #nameInputTpl>
+          <input type="text" nz-input [(ngModel)]="data.name" />
+        </ng-template>
+      </td>
+      <td>
+        <ng-container *ngIf="!edit; else nameCateInputTpl">
+          {{ data.categories.name }}
+        </ng-container>
+        <ng-template #nameCateInputTpl>
+          <nz-select nzPlaceHolder="{{ data.categories.name }}" nzAllowClear>
+            <nz-option
+              *ngFor="let value of cateValues"
+              [nzValue]="value"
+              [nzLabel]="value.name"
+            ></nz-option>
+            <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+              <i nz-icon nzType="loading" class="loading-icon"></i> Loading
+              Data...
+            </nz-option>
+          </nz-select>
+        </ng-template>
+      </td>
+      <td>
+        <div class="editable-row-operations">
+          <ng-container *ngIf="!edit; else saveTpl">
+            <a (click)="startEdit(data.id)">Edit</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <button nz-button nzType="dashed" (click)="showDeleteConfirm(data)">
+              Delete
+            </button>
+            <nz-divider nzType="vertical"></nz-divider>
+            <button nz-button nzType="dashed" (click)="onClickToUserHaveSkill(data.name)">
+              List user
+            </button>
+          </ng-container>
+          <ng-template #saveTpl>
+            <a (click)="saveEdit(data)">Save</a>
+            <a
+              nz-popconfirm
+              nzTitle="Sure to cancel?"
+              (nzOnConfirm)="cancelEdit(data.id)"
+              >Cancel</a
+            >
+            <nz-divider nzType="vertical"></nz-divider>
+            <button nz-button nzType="dashed" (click)="showDeleteConfirm(data)">
+              Delete
+            </button>
+          </ng-template>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

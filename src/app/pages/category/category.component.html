@@ -1,0 +1,99 @@
+<h1 style="color: #40a9ff">
+  CATEGORY
+</h1>
+
+<div nz-row>
+  <div nz-col [nzSpan]="18" [nzPush]="6">
+    <nz-input-group
+      nzSearch
+      [nzAddOnAfter]="suffixIconButton"
+      style="width: 50%; float: right"
+    >
+      <input
+        (keyup)="search($event.target.value)"
+        type="text"
+        nz-input
+        placeholder="Input search text"
+      />
+    </nz-input-group>
+  </div>
+  <div nz-col [nzSpan]="6" [nzPull]="18">
+    <button nz-button nzType="dashed" nzShape="circle" (click)="showModal()">
+      <i nz-icon nzType="plus" nzTheme="outline"></i>
+      <nz-modal
+        [(nzVisible)]="isVisible"
+        nzTitle="Create New Category"
+        (nzOnCancel)="handleCancel()"
+        (nzOnOk)="createNew(cateName.value)"
+      >
+        <nz-input-group
+          [nzSuffix]="suffixTemplateInfo"
+          [nzPrefix]="prefixTemplateUser"
+        >
+          <input
+            #cateName
+            type="text"
+            nz-input
+            placeholder="Create New Category"
+          />
+        </nz-input-group>
+        <span></span>
+        <ng-template #prefixTemplateUser
+          ><i nz-icon nzType="form" nzTheme="outline"></i
+        ></ng-template>
+      </nz-modal>
+    </button>
+  </div>
+</div>
+
+<br /><br /><br />
+<nz-table #editRowTable nzBordered [nzData]="data">
+  <thead>
+    <tr>
+      <th nzWidth="20%">ID</th>
+      <th nzWidth="50%">Name</th>
+      <th nzWidth="30%">More</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of editRowTable.data">
+      <td>
+        <ng-container>
+          {{ data.id }}
+        </ng-container>
+      </td>
+      <td>
+        <ng-container *ngIf="!editCache[data.id].edit; else nameInputTpl">
+          {{ data.name }}
+        </ng-container>
+        <ng-template #nameInputTpl>
+          <input type="text" nz-input [(ngModel)]="data.name" />
+        </ng-template>
+      </td>
+      <td>
+        <div class="editable-row-operations">
+          <ng-container *ngIf="!editCache[data.id].edit; else saveTpl">
+            <a (click)="startEdit(data.id)">Edit</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <button nz-button nzType="dashed" (click)="showDeleteConfirm(data)">
+              Delete
+            </button>
+          </ng-container>
+          <ng-template #saveTpl>
+            <a (click)="saveEdit(data)">Save</a>
+            <a
+              nz-popconfirm
+              nzTitle="Sure to cancel?"
+              (nzOnConfirm)="cancelEdit(data.id)"
+              >Cancel</a
+            >
+            <nz-divider nzType="vertical"></nz-divider>
+            <button nz-button nzType="dashed" (click)="showDeleteConfirm(data)">
+              Delete
+            </button>
+          </ng-template>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

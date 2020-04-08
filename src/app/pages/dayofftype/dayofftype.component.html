@@ -1,0 +1,26 @@
+<button nz-button [nzType]="'primary'" (click)="showModal()"><span>New Type</span></button>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Create Day Off Type" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" [nzOkDisabled]="!checkData(name)">
+  <input nz-input placeholder="content" [(ngModel)]="name" required />
+</nz-modal>
+<nz-table #nzTable [nzData]="data">
+  <thead>
+    <tr>
+      <th nzCustomFilter>ID</th>
+      <th>Name</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of nzTable.data">
+      <td>{{ data.id }}</td>
+      <td>{{ data.name }}</td>
+      <td>
+        <button nz-button [nzType]="'primary'" (click)="showModalEdit(data)"><span>Edit</span></button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+<nz-modal [(nzVisible)]="isVisibleEdit" nzTitle="Edit Day Off Type" (nzOnCancel)="handleCancelEdit()"
+  (nzOnOk)="handleOkEdit(dayOffType)">
+  <input *ngIf="dayOffType" nz-input placeholder="{{dayOffType.name}}" [(ngModel)]="dayOffType.name"/>
+</nz-modal>
