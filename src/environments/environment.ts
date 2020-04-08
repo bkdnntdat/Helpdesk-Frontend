@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl : 'https://helpdesk-kunlez-novahub.herokuapp.com/api'
+  apiUrl : 'https://hepldeskbackendntdat.herokuapp.com/api'
 };
 
 /*
